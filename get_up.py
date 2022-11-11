@@ -29,6 +29,7 @@ def get_one_sentence():
 		print("get SENTENCE_API wrong")
         return DEFAULT_SENTENCE
 
+
 def get_today_get_up_status(issue):
 	comments = list(issue.get_comments())
 	if not comments:
