@@ -6,9 +6,9 @@ import pendulum
 from github import Github
 
 # 14 for test 12 real get up
-GET_UP_ISSUE_NUMBER = 1
+GET_UP_ISSUE_NUMBER = 1   
 GET_UP_MESSAGE_TEMPLATE = (
-	"今天的起床时间是--{get_up_time}.\r\n\r\n 懒狗🐶起床啦，不要玩手机，赶紧去跑步，学习不耽误。\r\n\r\n 今天的一句诗:\r\n {sentence}"
+    "今天的起床时间是--{get_up_time}.\r\n\r\n 懒狗🐶起床啦，不要玩手机，赶紧去跑步，学习不耽误。\r\n\r\n 今天的一句诗:\r\n {sentence}"
 )
 SENTENCE_API = "https://v1.jinrishici.com/all"
 DEFAULT_SENTENCE = "赏花归去马如飞\r\n去马如飞酒力微\r\n酒力微醒时已暮\r\n醒时已暮赏花归\r\n"
@@ -16,30 +16,30 @@ TIMEZONE = "Asia/Shanghai"
 
 
 def login(token):
-	return Github(token)
+    return Github(token)
 
 
 def get_one_sentence():
-	try:
-		r = requests.get(SENTENCE_API)
-		if r.ok:
-			return r.json().get("content", DEFAULT_SENTENCE)
-		return DEFAULT_SENTENCE
-	except:
-		print("get SENTENCE_API wrong")
+    try:
+        r = requests.get(SENTENCE_API)
+        if r.ok:
+            return r.json().get("content", DEFAULT_SENTENCE)
+        return DEFAULT_SENTENCE
+    except:
+        print("get SENTENCE_API wrong")
         return DEFAULT_SENTENCE
 
 
 def get_today_get_up_status(issue):
-	comments = list(issue.get_comments())
-	if not comments:
-		return False
-	latest_comment = comments[-1]
-	now = pendulum.now(TIMEZONE)
-	latest_day = pendulum.instance(latest_comment.created_at).in_timezone(
-		"Asia/Shanghai"
-	)
-	is_today = (latest_day.day == now.day) and (latest_day.month == now.month)
+    comments = list(issue.get_comments())
+    if not comments:
+        return False
+    latest_comment = comments[-1]
+    now = pendulum.now(TIMEZONE)
+    latest_day = pendulum.instance(latest_comment.created_at).in_timezone(
+        "Asia/Shanghai"
+    )
+    is_today = (latest_day.day == now.day) and (latest_day.month == now.month)
     return is_today
 
 
@@ -47,7 +47,7 @@ def make_get_up_message():
     sentence = get_one_sentence()
     now = pendulum.now(TIMEZONE)
     # 3 - 7 means early for me
-    is_get_up_early = 8 <= now.hour <= 18    
+    is_get_up_early = 6 <= now.hour <= 18    
     get_up_time = now.to_datetime_string()
     body = GET_UP_MESSAGE_TEMPLATE.format(get_up_time=get_up_time, sentence=sentence)
     return body, is_get_up_early
