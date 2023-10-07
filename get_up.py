@@ -47,7 +47,7 @@ def make_get_up_message():
     sentence = get_one_sentence()
     now = pendulum.now(TIMEZONE)
     # 3 - 7 means early for me
-    is_get_up_early = 8 <= now.hour <= 18    
+    is_get_up_early = 3 <= now.hour <= 8
     get_up_time = now.to_datetime_string()
     body = GET_UP_MESSAGE_TEMPLATE.format(get_up_time=get_up_time, sentence=sentence)
     return body, is_get_up_early
@@ -81,6 +81,16 @@ def main(github_token, repo_name, weather_message, tele_token, tele_chat_id):
             )
     else:
         print("You wake up late")
+        if tele_token and tele_chat_id:
+            requests.post(
+                url="https://api.telegram.org/bot{0}/{1}".format(
+                    tele_token, "sendMessage"
+                ),
+                data={
+                    "chat_id": tele_chat_id,
+                    "text": "You wake up late",
+                },
+            )
 
 
 if __name__ == "__main__":
