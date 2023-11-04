@@ -7,6 +7,9 @@ on:
         description: 'weather message'
         required: false
 
+env:
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
 jobs:
   sync:
     name: Build
@@ -17,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.9
+          python-version: 3.8
       - name: Configure pip cache
         uses: actions/cache@v1
         id: pip-cache
@@ -38,3 +41,12 @@ jobs:
         run: |
           source venv/bin/activate
           python wakeup.py ${{ secrets.G_T }} ${{ github.repository }} --weather_message ": ${{ github.event.inputs.message }}" --tele_token ${{ secrets.TELE_TOKEN }} --tele_chat_id ${{ secrets.TELE_CHAT_ID }}
+          rm -rf venv
+
+      - name: Push New Pic
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "generated today pic" || echo "no need to commit "
+          git push || echo "no file change"
