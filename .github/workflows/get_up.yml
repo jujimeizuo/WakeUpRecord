@@ -20,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v1
         with:
-          python-version: 3.9
+          python-version: 3.8
       - name: Configure pip cache
         uses: actions/cache@v1
         id: pip-cache
@@ -40,7 +40,7 @@ jobs:
       - name: GET UP
         run: |
           source venv/bin/activate
-          python wakeup.py ${{ secrets.G_T }} ${{ github.repository }} --weather_message ": ${{ github.event.inputs.message }}" --tele_token ${{ secrets.TELE_TOKEN }} --tele_chat_id ${{ secrets.TELE_CHAT_ID }}
+          python wakeup.py ${{ secrets.G_T }} ${{ github.repository }} "${{ secrets.BING_COOKIE }}" --weather_message ": ${{ github.event.inputs.message }}" --tele_token ${{ secrets.TELE_TOKEN }} --tele_chat_id ${{ secrets.TELE_CHAT_ID }}
           rm -rf venv
 
       - name: Push New Pic

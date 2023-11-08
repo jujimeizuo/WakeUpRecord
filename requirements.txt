@@ -1,5 +1,6 @@
 PyGithub
 requests
 pendulum
-openai==0.28.1
+openai==1.1.1
+BingImageCreator-fork
 pyTelegramBotAPI

@@ -8,6 +8,7 @@
 - TELE_TOKEN
 - TELE_CHAT_ID
 - OPENAI_API_KEY (optional)
+- Bing_COOKIE (optional)
 
 ## Shortcuts
 
