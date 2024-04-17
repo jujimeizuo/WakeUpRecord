@@ -104,7 +104,8 @@ def make_get_up_message(bing_cookie, up_list):
     # 3 - 7 means early for me
     is_get_up_early = 3 <= now.hour <= 24
     get_up_time = now.to_datetime_string()
-    link_list = []
+    link_list = None
+    link_for_issue = None
     try:
         link_list, link_for_issue = make_pic_and_save(sentence, bing_cookie)
     except Exception as e:
@@ -138,7 +139,7 @@ def main(github_token, repo_name, bing_cookie, weather_message, tele_token, tele
         weather_message = f"现在的天气是{weather_message}\n"
         body = weather_message + early_message
     if is_get_up_early:
-        comment = body + f"![image]({link_for_issue})"
+        comment = body + f"![image]({link_for_issue})" if link_for_issue is not None else body
         issue.create_comment(comment)
         # send to telegram
         if tele_token and tele_chat_id:
