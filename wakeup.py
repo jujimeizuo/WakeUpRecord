@@ -102,9 +102,9 @@ def make_get_up_message(bing_cookie, up_list):
     sentence = get_one_sentence(up_list)
     now = pendulum.now(TIMEZONE)
     # 3 - 7 means early for me
-    is_get_up_early = 3 <= now.hour <= 24
+    is_get_up_early = 3 <= now.hour <= 8
     get_up_time = now.to_datetime_string()
-    link_list = None
+    link_list = []
     link_for_issue = None
     try:
         link_list, link_for_issue = make_pic_and_save(sentence, bing_cookie)
